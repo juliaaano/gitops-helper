@@ -1,0 +1,23 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+{{- range .Values.namespaces }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-content
+  namespace: {{ $.Values.username }}-{{ . }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app: nginx
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Welcome</title></head>
+    <body>
+    <h1>Hello from {{ $.Values.username }}</h1>
+    <p>This is a sample workshop application.</p>
+    </body>
+    </html>
+---
+{{- end }}

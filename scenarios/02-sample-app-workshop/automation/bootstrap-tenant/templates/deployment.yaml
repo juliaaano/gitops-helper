@@ -1,16 +1,16 @@
 # Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+{{- range .Values.namespaces }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
-  namespace: {{ .Values.username }}-app
+  namespace: {{ $.Values.username }}-{{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   labels:
     app: nginx
-    app.kubernetes.io/part-of: sample-app
 spec:
-  replicas: {{ .Values.nginx.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -21,14 +21,16 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: {{ .Values.nginx.image }}
+        image: registry.access.redhat.com/ubi9/nginx-122
         ports:
-        - containerPort: {{ .Values.nginx.port }}
+        - containerPort: 8080
           protocol: TCP
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
-            memory: "128Mi"
-            cpu: "100m"
+        volumeMounts:
+        - name: nginx-content
+          mountPath: /opt/app-root/src
+      volumes:
+      - name: nginx-content
+        configMap:
+          name: nginx-content
+---
+{{- end }}
