@@ -1,0 +1,14 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+# CatalogSource for the RHPDS Gitea operator
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: redhat-gpte-gitea
+  namespace: openshift-marketplace
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  sourceType: grpc
+  image: quay.io/rhpds/gitea-catalog:latest
+  displayName: Red Hat GPTE (Gitea Operator)
+  publisher: Red Hat GPTE

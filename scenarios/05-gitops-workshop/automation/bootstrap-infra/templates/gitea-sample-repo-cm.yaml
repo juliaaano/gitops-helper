@@ -1,10 +1,9 @@
-# Generated for gitops-workshop scenario
-# ConfigMap containing sample Kubernetes manifests to seed into Gitea
----
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+# ConfigMap with the sample app manifests that will be pushed to Gitea
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sample-app-manifests
+  name: gitea-sample-app
   namespace: {{ .Values.gitea.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
@@ -27,17 +26,16 @@ data:
             app: httpd
         spec:
           containers:
-            - name: httpd
-              image: registry.access.redhat.com/ubi9/httpd-24:latest
-              ports:
-                - containerPort: 8080
-              resources:
-                limits:
-                  memory: 256Mi
-                  cpu: 200m
-                requests:
-                  memory: 128Mi
-                  cpu: 100m
+          - name: httpd
+            image: registry.access.redhat.com/ubi9/httpd-24:latest
+            ports:
+            - containerPort: 8080
+              protocol: TCP
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                memory: 64Mi
   service.yaml: |
     apiVersion: v1
     kind: Service
@@ -49,6 +47,6 @@ data:
       selector:
         app: httpd
       ports:
-        - port: 8080
-          targetPort: 8080
-          protocol: TCP
+      - port: 8080
+        targetPort: 8080
+        protocol: TCP

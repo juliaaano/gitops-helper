@@ -22,5 +22,5 @@ spec:
   channel: stable
   installPlanApproval: Automatic
   name: gitea-operator
-  source: community-operators
+  source: redhat-gpte-gitea
   sourceNamespace: openshift-marketplace

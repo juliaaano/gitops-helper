@@ -1,4 +1,4 @@
-# Generated for gitops-workshop scenario
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 # Job to create sample Git repo in Gitea with httpd deployment manifests
 ---
 apiVersion: v1
@@ -43,7 +43,7 @@ spec:
       volumes:
         - name: manifests
           configMap:
-            name: sample-app-manifests
+            name: gitea-sample-app
       containers:
         - name: create-repo
           image: registry.redhat.io/openshift4/ose-cli:latest

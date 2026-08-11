@@ -12,13 +12,4 @@ namespaces:
   - app-staging
 
 argocd:
-  server:
-    memory: 512Mi
-  controller:
-    memory: 2Gi
-  repo:
-    memory: 1Gi
-  redis:
-    memory: 512Mi
-  dex:
-    memory: 512Mi
+  memoryLimit: 512Mi

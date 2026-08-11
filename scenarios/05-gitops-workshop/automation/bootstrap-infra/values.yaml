@@ -4,9 +4,6 @@ deployer:
   apiUrl: https://api.cluster.example.com:6443
   guid: xxxxx
 
-# Shared namespace for tenant cleanup jobs. Set to "" to disable.
-tenantLifecycle: ""
-
 gitea:
   namespace: gitea
   image: quay.io/rhpds/gitea
@@ -23,3 +20,6 @@ gitea:
   sampleRepo:
     name: sample-app
     sourceUrl: ""
+
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""

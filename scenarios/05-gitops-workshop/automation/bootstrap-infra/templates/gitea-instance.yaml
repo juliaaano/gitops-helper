@@ -1,5 +1,5 @@
 # Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
----
+# Gitea CR - depends on the Gitea operator CRD
 apiVersion: pfe.rhpds.com/v1
 kind: Gitea
 metadata:
@@ -18,18 +18,10 @@ spec:
   giteaSsl: true
   giteaAdminUser: {{ .Values.gitea.adminUser }}
   giteaAdminPassword: {{ .Values.gitea.adminPassword }}
-  giteaAdminEmail: "admin@demo.redhat.com"
+  giteaAdminEmail: "{{ .Values.gitea.adminUser }}@demo.redhat.com"
   giteaCreateUsers: true
   giteaGenerateUserFormat: user
   giteaUserNumber: {{ len .Values.gitea.users }}
   giteaUserPassword: {{ .Values.gitea.userPassword }}
   giteaUserEmailDomain: "demo.redhat.com"
-  {{- if .Values.gitea.sampleRepo.sourceUrl }}
-  giteaMigrateRepositories: true
-  giteaRepositoriesList:
-    - repo: {{ .Values.gitea.sampleRepo.sourceUrl }}
-      name: {{ .Values.gitea.sampleRepo.name }}
-      private: false
-  {{- else }}
   giteaMigrateRepositories: false
-  {{- end }}

@@ -1,5 +1,5 @@
-# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v0.1.0)
----
+# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
+# Per-user ArgoCD instance for the GitOps Workshop
 apiVersion: argoproj.io/v1beta1
 kind: ArgoCD
 metadata:
@@ -9,17 +9,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
-  sourceNamespaces:
-    - {{ .Values.username }}-app
-    - {{ .Values.username }}-app-staging
   sso:
     dex:
       openShiftOAuth: true
-      resources:
-        limits:
-          memory: {{ .Values.argocd.dex.memory }}
-        requests:
-          memory: 128Mi
     provider: dex
   rbac:
     policy: |
@@ -27,32 +19,41 @@ spec:
       g, cluster-admins, role:admin
       g, {{ .Values.username }}, role:admin
     scopes: '[name,groups]'
-  redis:
-    resources:
-      limits:
-        memory: {{ .Values.argocd.redis.memory }}
-      requests:
-        memory: 128Mi
   server:
-    resources:
-      limits:
-        memory: {{ .Values.argocd.server.memory }}
-      requests:
-        memory: 256Mi
     route:
       enabled: true
       tls:
         insecureEdgeTerminationPolicy: Redirect
         termination: reencrypt
-  repo:
-    resources:
-      limits:
-        memory: {{ .Values.argocd.repo.memory }}
-      requests:
-        memory: 256Mi
+  sourceNamespaces:
+    - {{ .Values.username }}-app
+    - {{ .Values.username }}-app-staging
+  resourceInclusions: |
+    - apiGroups:
+      - "*"
+      kinds:
+      - "*"
+      clusters:
+      - "*"
+  resourceExclusions: |
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - "*"
+      kinds:
+      - TaskRun
+      - PipelineRun
   controller:
     resources:
       limits:
-        memory: {{ .Values.argocd.controller.memory }}
+        memory: {{ .Values.argocd.memoryLimit }}
       requests:
-        memory: 512Mi
+        memory: 256Mi
+  repo:
+    resources:
+      limits:
+        memory: {{ .Values.argocd.memoryLimit }}
+      requests:
+        memory: 128Mi
+  ha:
+    enabled: false

@@ -1,4 +1,4 @@
-# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 ---
 apiVersion: v1
 kind: Namespace
