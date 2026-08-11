@@ -1,0 +1,24 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+# OpenShift Virtualization (CNV) operator
+cnv:
+  channel: "stable"
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  namespace: openshift-cnv
+
+# Gitea operator and instance
+gitea:
+  namespace: gitea
+  channel: "latest"
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+  instanceName: gitea
+  resourceName: gitea
+
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""

@@ -1,0 +1,16 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+username: user1
+
+namespaces:
+  - vms
+
+# VM configuration
+vm:
+  cores: 2
+  memory: 4Gi
+  diskSize: 20Gi

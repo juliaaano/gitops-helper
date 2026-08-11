@@ -1,0 +1,21 @@
+# Generated from rhdp-gitops-patterns (v0.1.0)
+# Gitea instance CR
+apiVersion: gpte.opentlc.com/v1
+kind: Gitea
+metadata:
+  name: {{ .Values.gitea.instanceName }}
+  namespace: {{ .Values.gitea.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  giteaSsl: true
+  giteaRoute: {{ .Values.gitea.resourceName }}.{{ .Values.deployer.domain }}
+  giteaAdminUser: opentlc-mgr
+  giteaAdminPassword: ""
+  giteaAdminPasswordLength: 16
+  giteaAdminEmail: opentlc-mgr@redhat.com
+  giteaCreateUsers: false
+  giteaGenerateUserFormat: ""
+  giteaUserNumber: 0
+  giteaDisableRegistration: false
