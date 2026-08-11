@@ -1,0 +1,21 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-serverless
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-serving
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-eventing
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
