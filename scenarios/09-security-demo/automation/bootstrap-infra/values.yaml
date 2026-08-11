@@ -1,0 +1,32 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""
+
+# Red Hat Advanced Cluster Security
+rhacs:
+  namespace: stackrox
+  channel: rhacs-4.8
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+
+# Red Hat Quay
+quay:
+  namespace: quay
+  channel: stable-3.13
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+
+# OpenShift Pipelines
+pipelines:
+  channel: pipelines-1.17
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+
+# Demo namespace
+demo:
+  namespace: security-demo

@@ -1,0 +1,41 @@
+# Generated from rhdp-gitops-patterns/examples/ansible-dev-tools (v0.1.0)
+apiVersion: org.eclipse.che/v2
+kind: CheCluster
+metadata:
+  name: {{ .Values.devspaces.cheCluster.name }}
+  namespace: {{ .Values.devspaces.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  components:
+    cheServer:
+      debug: false
+      logLevel: INFO
+    dashboard:
+      logLevel: ERROR
+    devWorkspace: {}
+    devfileRegistry: {}
+    imagePuller:
+      enable: false
+      spec: {}
+    metrics:
+      enable: true
+    pluginRegistry: {}
+  containerRegistry: {}
+  devEnvironments:
+    startTimeoutSeconds: 600
+    security: {}
+    secondsOfRunBeforeIdling: -1
+    maxNumberOfWorkspacesPerUser: -1
+    disableContainerBuildCapabilities: false
+    defaultEditor: che-incubator/che-code/latest
+    maxNumberOfRunningWorkspacesPerUser: 5
+    defaultNamespace:
+      autoProvision: true
+      template: <username>-devspaces
+    secondsOfInactivityBeforeIdling: 3600
+    storage:
+      pvcStrategy: per-workspace
+  gitServices: {}
+  networking: {}

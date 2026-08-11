@@ -1,0 +1,34 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""
+
+# Gitea operator and instance configuration
+gitea:
+  namespace: gitea
+  operatorName: gitea-operator
+  channel: stable
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+  instance:
+    name: gitea
+    adminUser: gitea-admin
+    adminPassword: openshift
+    adminEmail: gitea-admin@demo.redhat.com
+    volumeSize: 5Gi
+    postgresqlVolumeSize: 5Gi
+    ssl: true
+
+# OpenShift Dev Spaces configuration
+devspaces:
+  namespace: openshift-devspaces
+  operatorName: devspacesoperator
+  channel: stable
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  cheCluster:
+    name: devspaces

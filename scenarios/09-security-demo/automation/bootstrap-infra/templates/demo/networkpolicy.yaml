@@ -1,0 +1,17 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-rhacs-scanner
+  namespace: {{ .Values.demo.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.rhacs.namespace }}

@@ -1,0 +1,14 @@
+# Generated from rhdp-gitops-patterns/examples/ansible-dev-tools (v0.1.0)
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ .Values.devspaces.operatorName }}
+  namespace: {{ .Values.devspaces.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  channel: {{ .Values.devspaces.channel }}
+  installPlanApproval: Automatic
+  name: {{ .Values.devspaces.operatorName }}
+  source: {{ .Values.devspaces.source }}
+  sourceNamespace: {{ .Values.devspaces.sourceNamespace }}

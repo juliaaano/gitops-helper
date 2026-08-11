@@ -1,0 +1,14 @@
+# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ .Values.gitea.operatorName }}
+  namespace: {{ .Values.gitea.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  channel: {{ .Values.gitea.channel }}
+  installPlanApproval: Automatic
+  name: {{ .Values.gitea.operatorName }}
+  source: {{ .Values.gitea.source }}
+  sourceNamespace: {{ .Values.gitea.sourceNamespace }}

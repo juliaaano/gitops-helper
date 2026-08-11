@@ -1,0 +1,10 @@
+# Generated from rhdp-gitops-patterns/examples/ansible-dev-tools (v0.1.0)
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: {{ .Values.devspaces.operatorName }}
+  namespace: {{ .Values.devspaces.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  upgradeStrategy: Default
