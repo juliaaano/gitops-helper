@@ -1,0 +1,16 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello
+  namespace: {{ .Values.username }}-serverless
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  template:
+    spec:
+      containers:
+        - image: quay.io/openshift-knative/showcase
+          ports:
+            - containerPort: 8080

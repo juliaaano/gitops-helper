@@ -1,0 +1,65 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: build-and-deploy-knative
+  namespace: {{ .Values.username }}-serverless
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  params:
+    - name: IMAGE
+      description: The container image to build
+      type: string
+    - name: SERVICE_NAME
+      description: The Knative Service name to deploy
+      type: string
+      default: hello
+  workspaces:
+    - name: source
+  tasks:
+    - name: build
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+        - name: IMAGE
+          value: $(params.IMAGE)
+      workspaces:
+        - name: source
+          workspace: source
+    - name: deploy
+      runAfter:
+        - build
+      taskSpec:
+        params:
+          - name: SERVICE_NAME
+            type: string
+          - name: IMAGE
+            type: string
+        steps:
+          - name: deploy-knative-service
+            image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+            script: |
+              #!/usr/bin/env bash
+              set -eu
+              echo "Deploying Knative Service $(params.SERVICE_NAME) with image $(params.IMAGE)"
+              oc apply -f - <<EOF
+              apiVersion: serving.knative.dev/v1
+              kind: Service
+              metadata:
+                name: $(params.SERVICE_NAME)
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - image: $(params.IMAGE)
+                        ports:
+                          - containerPort: 8080
+              EOF
+      params:
+        - name: SERVICE_NAME
+          value: $(params.SERVICE_NAME)
+        - name: IMAGE
+          value: $(params.IMAGE)

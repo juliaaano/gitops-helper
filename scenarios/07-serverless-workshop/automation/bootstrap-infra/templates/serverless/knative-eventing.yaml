@@ -1,0 +1,12 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeEventing
+metadata:
+  name: knative-eventing
+  namespace: knative-eventing
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  high-availability:
+    replicas: 1
