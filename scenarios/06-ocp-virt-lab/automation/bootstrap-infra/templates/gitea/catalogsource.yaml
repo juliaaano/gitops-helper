@@ -1,0 +1,13 @@
+# Generated from rhdp-gitops-patterns (v1.0.0)
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: redhat-gpte-operators
+  namespace: openshift-marketplace
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  sourceType: grpc
+  image: quay.io/rhpds/gitea-catalog:latest
+  displayName: Red Hat GPTE Operators
+  publisher: Red Hat GPTE

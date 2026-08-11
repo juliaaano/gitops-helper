@@ -1,5 +1,5 @@
 # Generated from rhdp-gitops-patterns (v1.0.0)
-apiVersion: gpte.opentlc.com/v1
+apiVersion: pfe.rhpds.com/v1
 kind: Gitea
 metadata:
   name: gitea-instance
