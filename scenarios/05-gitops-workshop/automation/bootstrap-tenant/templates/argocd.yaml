@@ -1,0 +1,58 @@
+# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v0.1.0)
+---
+apiVersion: argoproj.io/v1beta1
+kind: ArgoCD
+metadata:
+  name: argocd
+  namespace: {{ .Values.username }}-argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  sourceNamespaces:
+    - {{ .Values.username }}-app
+    - {{ .Values.username }}-app-staging
+  sso:
+    dex:
+      openShiftOAuth: true
+      resources:
+        limits:
+          memory: {{ .Values.argocd.dex.memory }}
+        requests:
+          memory: 128Mi
+    provider: dex
+  rbac:
+    policy: |
+      g, system:cluster-admins, role:admin
+      g, cluster-admins, role:admin
+      g, {{ .Values.username }}, role:admin
+    scopes: '[name,groups]'
+  redis:
+    resources:
+      limits:
+        memory: {{ .Values.argocd.redis.memory }}
+      requests:
+        memory: 128Mi
+  server:
+    resources:
+      limits:
+        memory: {{ .Values.argocd.server.memory }}
+      requests:
+        memory: 256Mi
+    route:
+      enabled: true
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: reencrypt
+  repo:
+    resources:
+      limits:
+        memory: {{ .Values.argocd.repo.memory }}
+      requests:
+        memory: 256Mi
+  controller:
+    resources:
+      limits:
+        memory: {{ .Values.argocd.controller.memory }}
+      requests:
+        memory: 512Mi

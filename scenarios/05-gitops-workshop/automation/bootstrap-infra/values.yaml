@@ -1,0 +1,25 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""
+
+gitea:
+  namespace: gitea
+  image: quay.io/rhpds/gitea
+  imageTag: "1.25.5"
+  postgresqlImage: registry.redhat.io/rhel10/postgresql-16
+  postgresqlImageTag: "10.1"
+  adminUser: gitea-admin
+  adminPassword: openshift
+  users:
+    - user1
+    - user2
+    - user3
+  userPassword: openshift
+  sampleRepo:
+    name: sample-app
+    sourceUrl: ""
