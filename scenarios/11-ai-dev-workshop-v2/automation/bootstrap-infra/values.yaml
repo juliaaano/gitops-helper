@@ -38,8 +38,9 @@ rhoai:
 
 aiModels:
   namespace: ai-models
-  modelName: granite-guardian-hap
-  ociImage: "oci://quay.io/redhat-ai-services/modelcar-catalog:granite-guardian-hap-38m"
+  modelName: qwen-05b
+  ociImage: "oci://quay.io/redhat-ai-services/modelcar-catalog:qwen2.5-0.5b-instruct"
+  runtimeImage: "quay.io/rh-aiservices-bu/vllm-cpu-openai-ubi9:0.3"
 
 aiInfra:
   namespace: ai-infra

@@ -15,14 +15,16 @@ spec:
   multiModel: false
   containers:
     - name: kserve-container
-      image: quay.io/modh/vllm:rhoai-2.16-cuda
+      image: {{ .Values.aiModels.runtimeImage }}
       args:
         - --model=/mnt/models
         - --port=8080
         - --dtype=float32
-        - --device=cpu
         - --max-model-len=512
         - --enforce-eager
+      env:
+        - name: VLLM_CPU_OMP_THREADS_BIND
+          value: "all"
       ports:
         - name: http
           containerPort: 8080
