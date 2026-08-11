@@ -17,7 +17,7 @@ spec:
   giteaCreateUsers: true
   giteaUserNumber: {{ len .Values.gitea.users }}
   giteaUserPassword: {{ (index .Values.gitea.users 0).password }}
-  giteaGenerateUserFormat: user
+  giteaGenerateUserFormat: "user%d"
   giteaMigrateRepositories: {{ .Values.gitea.migrateRepositories }}
   {{- if .Values.gitea.migrateRepos }}
   giteaRepositoriesList:
