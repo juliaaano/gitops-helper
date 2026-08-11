@@ -1,14 +1,15 @@
-# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
+# Generated from rhpds/gitea-operator/OLMDeploy (v0.1.0)
+---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: {{ .Values.gitea.operatorName }}
-  namespace: {{ .Values.gitea.namespace }}
+  name: {{ .Values.gitea.operator.name }}
+  namespace: {{ .Values.gitea.operatorNamespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
-  channel: {{ .Values.gitea.channel }}
+  channel: {{ .Values.gitea.operator.channel }}
   installPlanApproval: Automatic
-  name: {{ .Values.gitea.operatorName }}
-  source: {{ .Values.gitea.source }}
-  sourceNamespace: {{ .Values.gitea.sourceNamespace }}
+  name: {{ .Values.gitea.operator.name }}
+  source: {{ .Values.gitea.catalogSource.name }}
+  sourceNamespace: {{ .Values.gitea.operatorNamespace }}

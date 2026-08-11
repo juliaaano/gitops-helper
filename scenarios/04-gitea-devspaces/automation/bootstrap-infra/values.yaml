@@ -9,11 +9,16 @@ tenantLifecycle: ""
 
 # Gitea operator and instance configuration
 gitea:
-  namespace: gitea
-  operatorName: gitea-operator
-  channel: stable
-  source: community-operators
-  sourceNamespace: openshift-marketplace
+  operatorNamespace: gitea-operator
+  instanceNamespace: gitea
+  catalogSource:
+    name: redhat-rhpds-gitea
+    image: quay.io/rhpds/gitea-catalog:latest
+    displayName: Red Hat Demo Platform (Gitea)
+    publisher: Red Hat Demo Platform
+  operator:
+    name: gitea-operator
+    channel: stable
   instance:
     name: gitea
     adminUser: gitea-admin
@@ -26,9 +31,10 @@ gitea:
 # OpenShift Dev Spaces configuration
 devspaces:
   namespace: openshift-devspaces
-  operatorName: devspaces
-  channel: stable
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+  operator:
+    name: devspaces
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+    channel: stable
   cheCluster:
     name: devspaces

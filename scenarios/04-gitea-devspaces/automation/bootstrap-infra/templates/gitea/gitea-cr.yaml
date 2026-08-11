@@ -1,9 +1,10 @@
 # Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
+---
 apiVersion: pfe.rhpds.com/v1
 kind: Gitea
 metadata:
   name: {{ .Values.gitea.instance.name }}
-  namespace: {{ .Values.gitea.namespace }}
+  namespace: {{ .Values.gitea.instanceNamespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true

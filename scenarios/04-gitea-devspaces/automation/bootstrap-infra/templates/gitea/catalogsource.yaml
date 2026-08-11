@@ -1,0 +1,14 @@
+# Generated from rhpds/gitea-operator/OLMDeploy (v0.1.0)
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: {{ .Values.gitea.catalogSource.name }}
+  namespace: {{ .Values.gitea.operatorNamespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  sourceType: grpc
+  image: {{ .Values.gitea.catalogSource.image }}
+  displayName: {{ .Values.gitea.catalogSource.displayName }}
+  publisher: {{ .Values.gitea.catalogSource.publisher }}
