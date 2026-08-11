@@ -2,7 +2,7 @@
 apiVersion: platform.stackrox.io/v1alpha1
 kind: Central
 metadata:
-  name: stackrox-central-services
+  name: {{ .Values.rhacs.centralName }}
   namespace: {{ .Values.rhacs.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"

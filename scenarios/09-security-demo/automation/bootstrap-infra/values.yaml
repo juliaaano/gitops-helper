@@ -13,6 +13,8 @@ rhacs:
   channel: rhacs-4.8
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+  centralName: stackrox-central-services
+  securedClusterName: stackrox-secured-cluster-services
 
 # Red Hat Quay
 quay:
@@ -20,6 +22,7 @@ quay:
   channel: stable-3.13
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+  registryName: quay-registry
 
 # OpenShift Pipelines
 pipelines:
@@ -30,3 +33,4 @@ pipelines:
 # Demo namespace
 demo:
   namespace: security-demo
+  vulnerableImage: quay.io/centos/centos:7

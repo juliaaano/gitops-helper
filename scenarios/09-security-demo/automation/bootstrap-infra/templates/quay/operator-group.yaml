@@ -1,4 +1,4 @@
-# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
+# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v0.1.0)
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
@@ -7,4 +7,5 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
-  upgradeStrategy: Default
+  targetNamespaces:
+    - {{ .Values.quay.namespace }}

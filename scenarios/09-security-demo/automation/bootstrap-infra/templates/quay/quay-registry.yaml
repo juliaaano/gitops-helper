@@ -2,7 +2,7 @@
 apiVersion: quay.redhat.com/v1
 kind: QuayRegistry
 metadata:
-  name: quay-registry
+  name: {{ .Values.quay.registryName }}
   namespace: {{ .Values.quay.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"

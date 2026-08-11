@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: centos7
-          image: quay.io/centos/centos:7
+          image: {{ .Values.demo.vulnerableImage }}
           command:
             - /bin/sh
             - -c
