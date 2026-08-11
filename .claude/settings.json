@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(oc login:*)",
+      "Bash(oc apply:*)",
+      "Bash(oc create:*)",
+      "Bash(oc delete:*)",
+      "Bash(oc project:*)",
+      "Bash(oc new-project:*)",
+      "Bash(oc adm:*)",
+      "Bash(oc patch:*)",
+      "Bash(kubectl apply:*)",
+      "Bash(kubectl create:*)",
+      "Bash(kubectl delete:*)",
+      "Bash(kubectl wait:*)",
+      "Bash(kubectl patch:*)",
+      "Bash(helm template:*)",
+      "Bash(helm lint:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git rebase:*)",
+      "Bash(chmod:*)",
+      "Bash(bash /tmp/rhdp-gitops-patterns*)",
+      "Bash(bash /Users/juliano/rhpds/rhdp-gitops-patterns*)",
+      "Bash(/tmp/rhdp-gitops-patterns/scaffold.sh:*)",
+      "Bash(/Users/juliano/rhpds/rhdp-gitops-patterns/scaffold.sh:*)"
+    ]
+  }
+}

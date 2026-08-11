@@ -1,0 +1,15 @@
+# Cluster credentials — never commit real credentials
+credentials.txt
+
+# Generated reports — these are outputs, not source
+scenarios/*/report.json
+
+# Generated automation — produced by the skill at runtime
+scenarios/*/automation/
+
+# Critic analysis results
+results/critic-analysis.md
+results/skill-changes.md
+
+# Kubeconfig files
+/tmp/kubeconfig-scenario-*.yaml
