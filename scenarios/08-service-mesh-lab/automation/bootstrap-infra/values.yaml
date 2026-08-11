@@ -18,7 +18,7 @@ servicemesh:
 
 istio:
   namespace: istio-system
-  version: default
+  version: v1.30-latest
 
 # Shared namespace for tenant cleanup jobs. Set to "" to disable.
 tenantLifecycle: ""

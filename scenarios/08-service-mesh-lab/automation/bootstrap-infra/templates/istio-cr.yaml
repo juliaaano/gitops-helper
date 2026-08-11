@@ -1,6 +1,6 @@
 # Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v1.0.0)
 ---
-apiVersion: sailoperator.io/v1alpha1
+apiVersion: sailoperator.io/v1
 kind: Istio
 metadata:
   name: default
