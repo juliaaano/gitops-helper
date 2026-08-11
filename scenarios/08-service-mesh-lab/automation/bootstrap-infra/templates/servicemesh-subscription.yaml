@@ -3,13 +3,13 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: sailoperator
+  name: servicemeshoperator3
   namespace: {{ .Values.servicemesh.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
   channel: {{ .Values.servicemesh.channel }}
   installPlanApproval: Automatic
-  name: sailoperator
+  name: servicemeshoperator3
   source: {{ .Values.servicemesh.source }}
   sourceNamespace: {{ .Values.servicemesh.sourceNamespace }}
