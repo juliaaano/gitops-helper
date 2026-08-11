@@ -1,6 +1,6 @@
 # Generated from rhdp-gitops-patterns (gitops-patterns.md - PVC section)
-# PVC placed at sync-wave 1, same as the Pipeline that uses it, to avoid
-# WaitForFirstConsumer blocking.
+# Uses Immediate binding storage class to avoid WaitForFirstConsumer blocking
+# ArgoCD health checks on the PVC.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -9,6 +9,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
+  storageClassName: ocs-external-storagecluster-ceph-rbd-immediate
   accessModes:
     - ReadWriteOnce
   resources:
