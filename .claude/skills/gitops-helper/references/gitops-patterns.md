@@ -88,6 +88,99 @@ argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 
 This prevents ArgoCD from failing the dry-run when the CRD does not yet exist.
 
+## Known Operator Quirks
+
+### Gitea Operator (RHPDS)
+
+The Gitea operator is **not available** in the standard `community-operators` or `redhat-operators`
+OLM catalogs. It requires a custom RHPDS CatalogSource. Always generate three resources together:
+
+1. **CatalogSource** (sync-wave -2, in `openshift-marketplace`):
+```yaml
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: redhat-gpte-gitea
+  namespace: openshift-marketplace
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  sourceType: grpc
+  image: quay.io/rhpds/gitea-catalog:latest
+  displayName: Red Hat GPTE (Gitea Operator)
+  publisher: Red Hat GPTE
+```
+
+2. **Subscription** (sync-wave -2, in `openshift-operators` — NOT a custom namespace):
+```yaml
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: gitea-operator
+  namespace: openshift-operators
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: gitea-operator
+  source: redhat-gpte-gitea
+  sourceNamespace: openshift-marketplace
+```
+
+3. **No OperatorGroup needed** — the Gitea operator only supports `AllNamespaces` install mode.
+   The `openshift-operators` namespace already has a global OperatorGroup. Do NOT create a
+   namespace-scoped OperatorGroup for Gitea; it will conflict with AllNamespaces mode.
+
+The Gitea CR (kind: Gitea) can be created in any namespace. Apply `SkipDryRunOnMissingResource`
+to the Gitea CR since its CRD is installed by the operator.
+
+## S2I Builder Images
+
+Red Hat UBI9 S2I (Source-to-Image) builder images — such as `ubi9/nginx-122`, `ubi9/httpd-24`,
+and `ubi9/python-311` — are **not intended to run directly as container images**. They are
+builders that expect application source to be injected at build time.
+
+When a lab prompt asks for a simple placeholder deployment using one of these images:
+
+- **nginx-122**: Add `command: ["/usr/libexec/s2i/run"]` and mount a ConfigMap with
+  a static `index.html` at `/opt/app-root/src`:
+  ```yaml
+  containers:
+  - name: nginx
+    image: registry.access.redhat.com/ubi9/nginx-122
+    command: ["/usr/libexec/s2i/run"]
+    ports:
+    - containerPort: 8080
+    volumeMounts:
+    - name: content
+      mountPath: /opt/app-root/src
+  volumes:
+  - name: content
+    configMap:
+      name: nginx-content
+  ```
+  Also create the ConfigMap with a basic `index.html`.
+
+- **httpd-24**: Same pattern — `command: ["/usr/libexec/s2i/run"]` with content mounted
+  at `/opt/app-root/src`.
+
+- **python-311**: Add `command: ["python3", "-m", "http.server", "8080"]` to run a simple
+  HTTP server without requiring application source.
+
+Never deploy these S2I images as bare containers without a command override — they will
+CrashLoopBackOff because the default entrypoint expects a source build.
+
+## PVC with WaitForFirstConsumer StorageClass
+
+On OpenShift clusters with `WaitForFirstConsumer` as the default storage class volume binding
+mode, a PVC at sync-wave 0 (or earlier) can block ArgoCD sync because the PVC stays `Pending`
+until a pod is scheduled that references it.
+
+**Solution**: Place PVCs at the same sync-wave as (or after) the workload that mounts them.
+If a pipeline workspace PVC is used by a Pipeline or PipelineRun, put it at sync-wave 0 or 1
+alongside the Pipeline, not at wave -2 with namespaces.
+
 ## Ansible-in-Job Pattern
 
 Use only when no declarative alternative exists (e.g., creating users via API, imperative cleanup).
