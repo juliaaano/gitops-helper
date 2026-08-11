@@ -23,5 +23,4 @@ spec:
       imageFlavor: Regular
     taintToleration: TolerateTaints
   clusterName: local-cluster
-  centralEndpoint: |
-    central-{{ .Values.rhacs.namespace }}.{{ .Values.deployer.domain }}:443
+  centralEndpoint: central.{{ .Values.rhacs.namespace }}.svc:443
