@@ -1,4 +1,6 @@
-# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+# Generated from rhdp-gitops-patterns (gitops-patterns.md - PVC section)
+# PVC placed at sync-wave 1, same as the Pipeline that uses it, to avoid
+# WaitForFirstConsumer blocking.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,9 +8,7 @@ metadata:
   namespace: {{ .Values.username }}-ai-dev
   annotations:
     argocd.argoproj.io/sync-wave: "1"
-    argocd.argoproj.io/compare-options: IgnoreExtraneous
 spec:
-  storageClassName: ocs-external-storagecluster-ceph-rbd-immediate
   accessModes:
     - ReadWriteOnce
   resources:

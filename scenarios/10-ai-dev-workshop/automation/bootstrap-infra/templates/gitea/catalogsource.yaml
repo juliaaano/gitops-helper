@@ -1,0 +1,14 @@
+# Generated from rhdp-gitops-patterns (gitops-patterns.md - Gitea Operator section)
+# The Gitea operator is not in standard OLM catalogs; it requires this custom CatalogSource.
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: redhat-gpte-gitea
+  namespace: openshift-marketplace
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  sourceType: grpc
+  image: {{ .Values.gitea.catalogImage }}
+  displayName: Red Hat GPTE (Gitea Operator)
+  publisher: Red Hat GPTE

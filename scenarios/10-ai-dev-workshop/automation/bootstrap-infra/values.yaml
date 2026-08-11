@@ -9,6 +9,7 @@ tenantLifecycle: ""
 
 gitea:
   namespace: gitea
+  catalogImage: quay.io/rhpds/gitea-catalog:latest
   adminUser: gitea-admin
   adminPassword: openshift
   dataSize: 10Gi

@@ -5,7 +5,7 @@ metadata:
   name: model-config
   namespace: {{ .Values.aiModels.namespace }}
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "0"
 data:
   model_name: {{ .Values.aiModels.modelName | quote }}
   model_endpoint: {{ .Values.aiModels.modelEndpoint | quote }}

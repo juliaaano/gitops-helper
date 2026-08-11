@@ -13,6 +13,10 @@ namespaces:
 # Shared AI models namespace (read-only access granted)
 aiModels:
   namespace: ai-models
+  modelName: "llama-scout-17b"
+  modelEndpoint: "https://models.example.com/v1"
+  embeddingModel: "nomic-embed-text-v1-5"
+  apiKey: "placeholder-key"
 
 # AI chatbot application
 aiChatbot:

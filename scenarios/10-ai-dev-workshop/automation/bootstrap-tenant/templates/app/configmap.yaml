@@ -8,6 +8,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 data:
-  model_name: "llama-scout-17b"
-  model_endpoint: "https://models.example.com/v1"
-  embedding_model: "nomic-embed-text-v1-5"
+  model_name: {{ .Values.aiModels.modelName | quote }}
+  model_endpoint: {{ .Values.aiModels.modelEndpoint | quote }}
+  embedding_model: {{ .Values.aiModels.embeddingModel | quote }}
