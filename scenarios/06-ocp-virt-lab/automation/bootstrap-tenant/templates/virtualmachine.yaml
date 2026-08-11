@@ -1,12 +1,11 @@
-# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v0.1.0)
-# Per-user Fedora VirtualMachine
+# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v1.0.0)
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: {{ .Values.username }}-fedora-vm
   namespace: {{ .Values.username }}-vms
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   dataVolumeTemplates:
@@ -22,7 +21,7 @@ spec:
         storage:
           resources:
             requests:
-              storage: {{ .Values.vm.diskSize }}
+              storage: 20Gi
   running: true
   template:
     metadata:
@@ -37,7 +36,7 @@ spec:
       architecture: amd64
       domain:
         cpu:
-          cores: {{ .Values.vm.cores }}
+          cores: 2
           sockets: 1
           threads: 1
         devices:
@@ -59,8 +58,10 @@ spec:
         firmware:
           bootloader:
             efi: {}
+        machine:
+          type: pc-q35-rhel9.4.0
         memory:
-          guest: {{ .Values.vm.memory }}
+          guest: 4Gi
         resources: {}
       networks:
         - name: default

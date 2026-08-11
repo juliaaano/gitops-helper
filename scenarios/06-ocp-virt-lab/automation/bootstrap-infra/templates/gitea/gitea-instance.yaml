@@ -1,0 +1,14 @@
+# Generated from rhdp-gitops-patterns (v1.0.0)
+apiVersion: gpte.opentlc.com/v1
+kind: Gitea
+metadata:
+  name: gitea-instance
+  namespace: {{ .Values.gitea.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  giteaSsl: true
+  giteaAdminUser: opentlc-mgr
+  giteaAdminPassword: r3dh4t1!
+  giteaAdminEmail: opentlc-mgr@redhat.com

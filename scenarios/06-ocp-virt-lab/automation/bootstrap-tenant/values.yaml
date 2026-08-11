@@ -8,9 +8,3 @@ username: user1
 
 namespaces:
   - vms
-
-# VM configuration
-vm:
-  cores: 2
-  memory: 4Gi
-  diskSize: 20Gi

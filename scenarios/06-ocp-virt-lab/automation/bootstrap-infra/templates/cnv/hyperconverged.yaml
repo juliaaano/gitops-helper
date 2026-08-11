@@ -1,5 +1,4 @@
-# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v0.1.0)
-# HyperConverged CR to activate the CNV stack
+# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v1.0.0)
 apiVersion: hco.kubevirt.io/v1beta1
 kind: HyperConverged
 metadata:

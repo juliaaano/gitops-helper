@@ -6,19 +6,16 @@ deployer:
 
 # OpenShift Virtualization (CNV) operator
 cnv:
-  channel: "stable"
+  channel: stable
   source: redhat-operators
   sourceNamespace: openshift-marketplace
   namespace: openshift-cnv
 
-# Gitea operator and instance
+# Gitea operator
 gitea:
   namespace: gitea
-  channel: "latest"
-  source: community-operators
-  sourceNamespace: openshift-marketplace
-  instanceName: gitea
-  resourceName: gitea
 
 # Shared namespace for tenant cleanup jobs. Set to "" to disable.
 tenantLifecycle: ""
+# tenantLifecycle:
+#   namespace: tenant-lifecycle
