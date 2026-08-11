@@ -9,4 +9,4 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   namespace: istio-system
-  version: v1.24.3
+  version: v1.30-latest
