@@ -1,0 +1,12 @@
+# Generated from rhdp-gitops-patterns/skeleton (v1.0.0)
+{{- range .Values.namespaces }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $.Values.username }}-{{ . }}
+  labels:
+    istio-injection: enabled
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+---
+{{- end }}

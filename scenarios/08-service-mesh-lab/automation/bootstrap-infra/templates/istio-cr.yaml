@@ -1,0 +1,13 @@
+# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v1.0.0)
+---
+apiVersion: sailoperator.io/v1alpha1
+kind: Istio
+metadata:
+  name: default
+  namespace: {{ .Values.istio.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  namespace: {{ .Values.istio.namespace }}
+  version: {{ .Values.istio.version }}
