@@ -6,7 +6,7 @@ metadata:
   name: pipeline-workspace
   namespace: {{ $.Values.username }}-{{ . }}
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   accessModes:
     - {{ $.Values.pvc.accessMode }}
