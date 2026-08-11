@@ -1,5 +1,4 @@
-# Generated from rhdp-gitops-patterns/skeleton (v1.0.0)
----
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
@@ -12,8 +11,16 @@ spec:
   hosts:
   - frontend
   http:
-  - route:
+  - match:
+    - uri:
+        prefix: /api
+    route:
     - destination:
         host: backend
         port:
-          number: {{ .Values.backend.port }}
+          number: 8080
+  - route:
+    - destination:
+        host: frontend
+        port:
+          number: 8080

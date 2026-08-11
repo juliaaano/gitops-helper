@@ -8,13 +8,3 @@ username: user1
 
 namespaces:
   - mesh
-
-frontend:
-  image: registry.access.redhat.com/ubi9/httpd-24
-  replicas: 1
-  port: 8080
-
-backend:
-  image: registry.access.redhat.com/ubi9/nginx-122
-  replicas: 1
-  port: 8080

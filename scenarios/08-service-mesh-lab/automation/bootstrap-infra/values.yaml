@@ -4,23 +4,16 @@ deployer:
   apiUrl: https://api.cluster.example.com:6443
   guid: xxxxx
 
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""
+
+# Operator settings
 kiali:
-  namespace: openshift-operators
   channel: stable
   source: redhat-operators
   sourceNamespace: openshift-marketplace
 
 servicemesh:
-  namespace: openshift-operators
   channel: stable
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-
-istio:
-  namespace: istio-system
-  version: v1.30-latest
-
-# Shared namespace for tenant cleanup jobs. Set to "" to disable.
-tenantLifecycle: ""
-# tenantLifecycle:
-#   namespace: tenant-lifecycle

@@ -1,0 +1,36 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+# S2I nginx-122 image requires command override and content mount
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: {{ .Values.username }}-mesh
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+      - name: nginx
+        image: registry.access.redhat.com/ubi9/nginx-122
+        command: ["/usr/libexec/s2i/run"]
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: content
+          mountPath: /opt/app-root/src
+      volumes:
+      - name: content
+        configMap:
+          name: backend-content

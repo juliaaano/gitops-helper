@@ -1,0 +1,31 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+# ConfigMaps providing static content for S2I builder images
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-content
+  namespace: {{ .Values.username }}-mesh
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Frontend - {{ .Values.username }}</title></head>
+    <body><h1>Frontend service for {{ .Values.username }}</h1></body>
+    </html>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-content
+  namespace: {{ .Values.username }}-mesh
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Backend - {{ .Values.username }}</title></head>
+    <body><h1>Backend service for {{ .Values.username }}</h1></body>
+    </html>
