@@ -13,7 +13,7 @@ spec:
       autoSelect: true
   multiModel: false
   containers:
-    - name: ovms
+    - name: kserve-container
       image: quay.io/opendatahub/openvino_model_server:stable
       args:
         - --model_name={{ .Values.aiModels.modelName }}
