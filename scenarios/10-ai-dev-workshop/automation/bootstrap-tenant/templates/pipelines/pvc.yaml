@@ -6,7 +6,9 @@ metadata:
   namespace: {{ .Values.username }}-ai-dev
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
 spec:
+  storageClassName: ocs-external-storagecluster-ceph-rbd-immediate
   accessModes:
     - ReadWriteOnce
   resources:
