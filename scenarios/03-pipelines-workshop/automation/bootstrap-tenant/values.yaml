@@ -8,3 +8,8 @@ username: user1
 
 namespaces:
   - pipelines
+
+# Pipeline workspace storage
+pvc:
+  size: 1Gi
+  accessMode: ReadWriteOnce

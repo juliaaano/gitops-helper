@@ -1,25 +1,25 @@
 # Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+{{- range .Values.namespaces }}
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: sample-build-pipeline
-  namespace: {{ .Values.username }}-pipelines
+  namespace: {{ $.Values.username }}-{{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
+  workspaces:
+    - name: shared-workspace
   params:
-    - name: repo-url
+    - name: git-url
       type: string
-      description: The Git repository URL to clone
-      default: https://github.com/openshift/ruby-ex.git
+      description: The URL of the Git repository to clone
+      default: "https://github.com/openshift/pipelines-vote-api.git"
     - name: image-name
       type: string
       description: The name of the image to build
-      default: sample-app
-  workspaces:
-    - name: shared-workspace
-      description: Workspace for sharing data between tasks
+      default: "image-registry.openshift-image-registry.svc:5000/{{ $.Values.username }}-{{ . }}/vote-api:latest"
   tasks:
     - name: git-clone
       taskRef:
@@ -27,7 +27,7 @@ spec:
         kind: ClusterTask
       params:
         - name: url
-          value: $(params.repo-url)
+          value: $(params.git-url)
       workspaces:
         - name: output
           workspace: shared-workspace
@@ -39,7 +39,9 @@ spec:
         - git-clone
       params:
         - name: IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/{{ .Values.username }}-pipelines/$(params.image-name)
+          value: $(params.image-name)
       workspaces:
         - name: source
           workspace: shared-workspace
+---
+{{- end }}

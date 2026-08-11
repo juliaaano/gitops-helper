@@ -1,14 +1,17 @@
 # Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+{{- range .Values.namespaces }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pipeline-workspace
-  namespace: {{ .Values.username }}-pipelines
+  namespace: {{ $.Values.username }}-{{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   accessModes:
-    - ReadWriteOnce
+    - {{ $.Values.pvc.accessMode }}
   resources:
     requests:
-      storage: 1Gi
+      storage: {{ $.Values.pvc.size }}
+---
+{{- end }}

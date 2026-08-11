@@ -7,7 +7,7 @@ deployer:
 # Shared namespace for tenant cleanup jobs. Set to "" to disable.
 tenantLifecycle: ""
 
-# OpenShift Pipelines operator settings
+# OpenShift Pipelines operator configuration
 pipelines:
   namespace: openshift-operators
   channel: "pipelines-1.17"
@@ -15,5 +15,4 @@ pipelines:
   sourceNamespace: openshift-marketplace
 
 # Shared infrastructure namespace
-pipelinesInfra:
-  namespace: pipelines-infra
+infraNamespace: pipelines-infra
