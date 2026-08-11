@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 # Web Terminal operator - deployed via OLM Subscription
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription

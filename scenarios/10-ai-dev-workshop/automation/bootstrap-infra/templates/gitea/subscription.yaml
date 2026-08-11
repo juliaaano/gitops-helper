@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns (gitops-patterns.md - Gitea Operator section)
 # Gitea operator uses AllNamespaces install mode via openshift-operators.
 # No OperatorGroup needed - openshift-operators already has a global one.
 apiVersion: operators.coreos.com/v1alpha1

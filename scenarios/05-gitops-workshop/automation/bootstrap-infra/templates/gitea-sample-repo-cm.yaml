@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 # ConfigMap with the sample app manifests that will be pushed to Gitea
 apiVersion: v1
 kind: ConfigMap

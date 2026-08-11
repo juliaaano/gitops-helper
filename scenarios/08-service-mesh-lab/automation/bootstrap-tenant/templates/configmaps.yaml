@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 # ConfigMaps providing static content for S2I builder images
 apiVersion: v1
 kind: ConfigMap

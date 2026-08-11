@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns (gitops-patterns.md - PVC section)
 # Uses Immediate binding storage class to avoid WaitForFirstConsumer blocking
 # ArgoCD health checks on the PVC.
 apiVersion: v1

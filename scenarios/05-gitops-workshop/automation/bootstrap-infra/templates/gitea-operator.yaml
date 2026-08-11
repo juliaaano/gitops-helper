@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
 # Gitea operator supports AllNamespaces mode only.
 # Install in openshift-operators which already has a global OperatorGroup.
 ---

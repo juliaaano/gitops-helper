@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
 ---
 apiVersion: pfe.rhpds.com/v1
 kind: Gitea

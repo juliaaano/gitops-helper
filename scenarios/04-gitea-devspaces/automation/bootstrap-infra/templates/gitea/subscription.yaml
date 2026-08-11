@@ -1,4 +1,3 @@
-# Generated from rhpds/gitea-operator/OLMDeploy (v0.1.0)
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription

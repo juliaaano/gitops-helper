@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 # Role granting read-only access to ConfigMaps and Secrets in ai-models namespace
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role

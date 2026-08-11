@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v1.0.0)
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:

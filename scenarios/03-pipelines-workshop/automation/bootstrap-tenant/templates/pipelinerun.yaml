@@ -1,4 +1,3 @@
-# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
 {{- range .Values.namespaces }}
 apiVersion: tekton.dev/v1
 kind: PipelineRun
