@@ -205,7 +205,8 @@ For each component:
    and any additional user-provided repos. If a matching pattern exists (e.g., GitLab, DevHub,
    Istio Gateway, per-user ArgoCD, KubeVirt VMs), use it as the basis for generation.
    Adapt values and namespaces to the current project. Add a provenance comment to each
-   generated file: `# Generated from rhdp-gitops-patterns/examples/<name> (<version>)`.
+   generated file with the full git repo URL of the source, e.g.
+   `# Generated from https://github.com/redhat-gpte/rhdp-gitops-patterns/examples/modernize-ocp-virt`.
 
    **Never generate ArgoCD Application CRs that point back to subdirectories of the same repo.**
    Expand all manifests directly into the chart templates.

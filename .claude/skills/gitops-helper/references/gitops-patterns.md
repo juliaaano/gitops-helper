@@ -324,13 +324,13 @@ this is the right trade-off: autonomy and simplicity over component-level versio
 ## Provenance
 
 When generating templates from a reference example, add a comment to the generated file
-noting the source:
+with the full git repo URL of the source:
 
 ```yaml
-# Generated from rhdp-gitops-patterns/examples/modernize-ocp-virt (v1.0.0)
+# Generated from https://github.com/redhat-gpte/rhdp-gitops-patterns/examples/modernize-ocp-virt
 ```
 
-This helps users know where the code came from without creating a runtime dependency.
+Use the actual repo URL and path — do not invent paths or append version numbers.
 
 ## Philosophy: AI-Driven Reuse
 
