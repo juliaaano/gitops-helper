@@ -22,6 +22,8 @@ spec:
       containers:
       - name: nginx
         image: registry.access.redhat.com/ubi9/nginx-122
+        command:
+        - /usr/libexec/s2i/run
         ports:
         - containerPort: 8080
           protocol: TCP
