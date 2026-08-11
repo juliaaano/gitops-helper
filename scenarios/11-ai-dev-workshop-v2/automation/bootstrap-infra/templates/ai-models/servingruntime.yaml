@@ -22,9 +22,11 @@ spec:
         - --rest_port=8888
         - --target_device=CPU
       ports:
-        - containerPort: 8080
+        - name: grpc
+          containerPort: 8080
           protocol: TCP
-        - containerPort: 8888
+        - name: rest
+          containerPort: 8888
           protocol: TCP
       resources:
         requests:
