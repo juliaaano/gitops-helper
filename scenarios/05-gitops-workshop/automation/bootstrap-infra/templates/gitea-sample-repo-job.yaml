@@ -92,30 +92,20 @@ spec:
                 }")
               echo "Create repo response: ${RESPONSE}"
 
-              if [[ "${RESPONSE}" != "201" && "${RESPONSE}" != "409" ]]; then
-                echo "Warning: unexpected response, continuing anyway..."
-              fi
+              # Use Gitea API to create files (no git needed)
+              echo "Adding deployment.yaml via API..."
+              DEPLOY_CONTENT=$(base64 -w0 /tmp/manifests/deployment.yaml)
+              curl -sk -X POST "${GITEA_URL}/api/v1/repos/${GITEA_ADMIN_USER}/${REPO_NAME}/contents/k8s/deployment.yaml" \
+                -H "Content-Type: application/json" \
+                -u "${GITEA_ADMIN_USER}:${GITEA_ADMIN_PASSWORD}" \
+                -d "{\"content\": \"${DEPLOY_CONTENT}\", \"message\": \"Add httpd deployment\"}" || echo "deployment.yaml may already exist"
 
-              # Clone and push manifests
-              cd /tmp
-              GIT_SSL_NO_VERIFY=true git clone "https://${GITEA_ADMIN_USER}:${GITEA_ADMIN_PASSWORD}@gitea-${GITEA_NAMESPACE}.{{ .Values.deployer.domain }}/${GITEA_ADMIN_USER}/${REPO_NAME}.git" repo || {
-                echo "Clone failed, waiting and retrying..."
-                sleep 15
-                GIT_SSL_NO_VERIFY=true git clone "https://${GITEA_ADMIN_USER}:${GITEA_ADMIN_PASSWORD}@gitea-${GITEA_NAMESPACE}.{{ .Values.deployer.domain }}/${GITEA_ADMIN_USER}/${REPO_NAME}.git" repo
-              }
-              cd repo
-
-              git config user.email "admin@demo.redhat.com"
-              git config user.name "${GITEA_ADMIN_USER}"
-
-              mkdir -p k8s
-              cp /tmp/manifests/deployment.yaml k8s/deployment.yaml
-              cp /tmp/manifests/service.yaml k8s/service.yaml
-
-              git add .
-              git diff --cached --quiet && echo "No changes to commit" && exit 0
-              git commit -m "Add sample httpd deployment manifests"
-              GIT_SSL_NO_VERIFY=true git push origin main
+              echo "Adding service.yaml via API..."
+              SVC_CONTENT=$(base64 -w0 /tmp/manifests/service.yaml)
+              curl -sk -X POST "${GITEA_URL}/api/v1/repos/${GITEA_ADMIN_USER}/${REPO_NAME}/contents/k8s/service.yaml" \
+                -H "Content-Type: application/json" \
+                -u "${GITEA_ADMIN_USER}:${GITEA_ADMIN_PASSWORD}" \
+                -d "{\"content\": \"${SVC_CONTENT}\", \"message\": \"Add httpd service\"}" || echo "service.yaml may already exist"
 
               echo "Sample repository created and populated successfully."
 
