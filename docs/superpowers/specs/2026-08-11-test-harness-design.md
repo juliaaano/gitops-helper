@@ -77,6 +77,7 @@ Each scenario's `prompt.md` is a natural language request written as a real user
 - **Pre-installed:** OpenShift GitOps (ArgoCD) in `openshift-gitops` namespace
 - **Users:** admin + user1, user2, user3 (normal users)
 - **Lifecycle:** Clusters are destroyed after testing completes
+- **Context isolation:** Each agent uses a separate kubeconfig file (`/tmp/kubeconfig-scenario-NN.yaml`) to avoid context collisions when running in parallel on the same machine. All `oc` and `kubectl` commands run with `KUBECONFIG` set to the agent's file.
 
 ## Workflow Architecture
 
@@ -108,6 +109,7 @@ Each scenario agent runs independently with its assigned cluster:
    - `git pull --rebase` (expect stale remote as other agents are pushing concurrently)
    - `git commit` and `git push`
 5. **Deploy to cluster** (30 min timeout, no retries):
+   - Set isolated kubeconfig: `export KUBECONFIG=/tmp/kubeconfig-scenario-NN.yaml` (each agent gets its own file to avoid context collisions when 10 agents run on the same machine)
    - `oc login` with admin credentials from `credentials.txt`
    - Create ArgoCD Application CR in `openshift-gitops` namespace for `bootstrap-infra`:
      ```yaml
