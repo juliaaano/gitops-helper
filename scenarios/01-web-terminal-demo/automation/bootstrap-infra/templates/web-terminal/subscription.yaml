@@ -1,0 +1,15 @@
+# Generated from rhdp-gitops-patterns/examples/ai-app-dev (v0.1.0)
+# Adapted for Web Terminal operator
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: web-terminal
+  namespace: openshift-operators
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  channel: {{ .Values.webTerminal.channel }}
+  installPlanApproval: Automatic
+  name: web-terminal
+  source: {{ .Values.webTerminal.source }}
+  sourceNamespace: {{ .Values.webTerminal.sourceNamespace }}

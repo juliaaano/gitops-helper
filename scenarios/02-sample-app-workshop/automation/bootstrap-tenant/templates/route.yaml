@@ -1,0 +1,21 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: nginx
+  namespace: {{ .Values.username }}-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app: nginx
+spec:
+  to:
+    kind: Service
+    name: nginx
+    weight: 100
+  port:
+    targetPort: {{ .Values.nginx.port }}
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

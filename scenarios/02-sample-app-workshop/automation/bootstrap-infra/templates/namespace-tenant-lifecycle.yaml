@@ -1,0 +1,16 @@
+{{- if .Values.tenantLifecycle }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.tenantLifecycle.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tenant-lifecycle
+  namespace: {{ .Values.tenantLifecycle.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+{{- end }}
