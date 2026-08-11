@@ -26,7 +26,7 @@ gitea:
 # OpenShift Dev Spaces configuration
 devspaces:
   namespace: openshift-devspaces
-  operatorName: devspacesoperator
+  operatorName: devspaces
   channel: stable
   source: redhat-operators
   sourceNamespace: openshift-marketplace
