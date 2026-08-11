@@ -38,8 +38,8 @@ rhoai:
 
 aiModels:
   namespace: ai-models
-  modelName: openvino-example-model
-  ociImage: "oci://quay.io/opendatahub/demo-models-ovms:openvino-example-model"
+  modelName: granite-guardian-hap
+  ociImage: "oci://quay.io/redhat-ai-services/modelcar-catalog:granite-guardian-hap-38m"
 
 aiInfra:
   namespace: ai-infra
