@@ -22,6 +22,11 @@ spec:
       containers:
         - name: ai-chatbot
           image: {{ .Values.aiChatbot.image }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              python3 -m http.server {{ .Values.aiChatbot.port }}
           ports:
             - containerPort: {{ .Values.aiChatbot.port }}
               protocol: TCP
