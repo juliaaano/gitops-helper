@@ -1,0 +1,19 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""
+
+# OpenShift Pipelines operator settings
+pipelines:
+  namespace: openshift-operators
+  channel: "pipelines-1.17"
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+
+# Shared infrastructure namespace
+pipelinesInfra:
+  namespace: pipelines-infra

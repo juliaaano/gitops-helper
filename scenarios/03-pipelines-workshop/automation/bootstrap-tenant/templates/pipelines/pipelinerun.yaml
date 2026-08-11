@@ -1,0 +1,21 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: sample-build-pipeline-run
+  namespace: {{ .Values.username }}-pipelines
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  pipelineRef:
+    name: sample-build-pipeline
+  params:
+    - name: repo-url
+      value: https://github.com/openshift/ruby-ex.git
+    - name: image-name
+      value: sample-app
+  workspaces:
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: pipeline-workspace

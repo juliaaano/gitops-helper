@@ -1,0 +1,45 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: sample-build-pipeline
+  namespace: {{ .Values.username }}-pipelines
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  params:
+    - name: repo-url
+      type: string
+      description: The Git repository URL to clone
+      default: https://github.com/openshift/ruby-ex.git
+    - name: image-name
+      type: string
+      description: The name of the image to build
+      default: sample-app
+  workspaces:
+    - name: shared-workspace
+      description: Workspace for sharing data between tasks
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: $(params.repo-url)
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+    - name: build
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      runAfter:
+        - git-clone
+      params:
+        - name: IMAGE
+          value: image-registry.openshift-image-registry.svc:5000/{{ .Values.username }}-pipelines/$(params.image-name)
+      workspaces:
+        - name: source
+          workspace: shared-workspace
