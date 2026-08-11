@@ -17,5 +17,5 @@ spec:
   giteaVolumeSize: {{ .Values.gitea.dataSize }}
   giteaCreateUsers: true
   giteaUserNumber: {{ len .Values.gitea.users }}
-  giteaUserPassword: openshift
-  giteaGenerateUserFormat: ""
+  giteaUserPassword: {{ (index .Values.gitea.users 0).password }}
+  giteaGenerateUserFormat: user
