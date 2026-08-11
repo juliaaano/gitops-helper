@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-chatbot
+  namespace: {{ .Values.username }}-ai-dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app: ai-chatbot
+    app.kubernetes.io/part-of: ai-chatbot
+spec:
+  replicas: {{ .Values.aiChatbot.replicas }}
+  selector:
+    matchLabels:
+      app: ai-chatbot
+  template:
+    metadata:
+      labels:
+        app: ai-chatbot
+    spec:
+      containers:
+        - name: ai-chatbot
+          image: {{ .Values.aiChatbot.image }}
+          command:
+            - python3
+            - -m
+            - http.server
+            - "{{ .Values.aiChatbot.port }}"
+          ports:
+            - containerPort: {{ .Values.aiChatbot.port }}
+              protocol: TCP
+          env:
+            - name: MODEL_NAME
+              value: {{ .Values.aiModels.modelName | quote }}
+            - name: MODEL_ENDPOINT
+              value: "http://{{ .Values.aiModels.modelName }}-predictor.{{ .Values.aiModels.namespace }}.svc.cluster.local"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

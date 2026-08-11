@@ -1,0 +1,29 @@
+apiVersion: pfe.rhpds.com/v1
+kind: Gitea
+metadata:
+  name: gitea-instance
+  namespace: {{ .Values.gitea.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  giteaSsl: true
+  giteaAdminUser: {{ .Values.gitea.adminUser }}
+  giteaAdminPassword: {{ .Values.gitea.adminPassword }}
+  giteaAdminEmail: gitea-admin@example.com
+  giteaDisableRegistration: false
+  postgresqlVolumeSize: {{ .Values.gitea.dataSize }}
+  giteaVolumeSize: {{ .Values.gitea.dataSize }}
+  giteaCreateUsers: true
+  giteaUserNumber: {{ len .Values.gitea.users }}
+  giteaUserPassword: {{ (index .Values.gitea.users 0).password }}
+  giteaGenerateUserFormat: user
+  giteaMigrateRepositories: {{ .Values.gitea.migrateRepositories }}
+  {{- if .Values.gitea.migrateRepos }}
+  giteaRepositoriesList:
+    {{- range .Values.gitea.migrateRepos }}
+    - repo: {{ .url }}
+      name: {{ .name }}
+      private: {{ .private }}
+    {{- end }}
+  {{- end }}

@@ -1,0 +1,38 @@
+apiVersion: datasciencecluster.opendatahub.io/v1
+kind: DataScienceCluster
+metadata:
+  name: default-dsc
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  components:
+    codeflare:
+      managementState: Removed
+    dashboard:
+      managementState: Managed
+    datasciencepipelines:
+      managementState: Removed
+    kserve:
+      managementState: Managed
+      serving:
+        ingressGateway:
+          certificate:
+            type: SelfSigned
+        managementState: Removed
+        name: knative-serving
+      defaultDeploymentMode: RawDeployment
+    kueue:
+      managementState: Removed
+    modelmeshserving:
+      managementState: Managed
+    modelregistry:
+      managementState: Removed
+    ray:
+      managementState: Removed
+    trainingoperator:
+      managementState: Removed
+    trustyai:
+      managementState: Removed
+    workbenches:
+      managementState: Managed

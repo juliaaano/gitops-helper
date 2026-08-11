@@ -1,0 +1,16 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: {{ .Values.aiModels.modelName }}
+  namespace: {{ .Values.aiModels.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    serving.kserve.io/deploymentMode: RawDeployment
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: openvino_ir
+      runtime: ovms-runtime
+      storageUri: {{ .Values.aiModels.ociImage }}

@@ -1,0 +1,25 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+username: user1
+
+namespaces:
+  - ai-dev
+  - ai-staging
+
+# Shared AI models namespace (read-only access granted)
+aiModels:
+  namespace: ai-models
+  modelName: openvino-example-model
+
+# AI chatbot application
+aiChatbot:
+  image: registry.access.redhat.com/ubi9/python-311
+  replicas: 1
+  port: 8080
+
+# Pipeline workspace
+pipelineWorkspaceSize: 2Gi

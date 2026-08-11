@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.aiInfra.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+    openshift.io/display-name: "AI Infrastructure"
