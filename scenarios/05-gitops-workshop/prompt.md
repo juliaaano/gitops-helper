@@ -16,6 +16,7 @@ Requirements:
     - RBAC granting the user admin access to their ArgoCD
     - Managed namespaces: <username>-app and <username>-app-staging
   - Edit RoleBindings for the user in all three namespaces
+- Operator CRDs (Gitea CR, ArgoCD CR) must have SkipDryRunOnMissingResource sync option
 - The tenant chart receives "username" and "deployer.domain" as Helm values
 - 3 users: user1, user2, user3
 - Follow rhdp-gitops-patterns conventions
