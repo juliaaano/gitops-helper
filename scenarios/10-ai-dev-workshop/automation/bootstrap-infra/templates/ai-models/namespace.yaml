@@ -5,4 +5,4 @@ metadata:
   name: {{ .Values.aiModels.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
-    openshift.io/display-name: "AI Models - Shared Configuration"
+    openshift.io/display-name: "AI Models"

@@ -7,8 +7,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
-  channel: {{ .Values.gitea.operatorChannel }}
+  channel: stable
   installPlanApproval: Automatic
   name: gitea-operator
-  source: {{ .Values.gitea.operatorSource }}
-  sourceNamespace: {{ .Values.gitea.operatorSourceNamespace }}
+  source: community-operators
+  sourceNamespace: openshift-marketplace

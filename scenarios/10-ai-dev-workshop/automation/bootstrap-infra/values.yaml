@@ -7,15 +7,10 @@ deployer:
 # Shared namespace for tenant cleanup jobs. Set to "" to disable.
 tenantLifecycle: ""
 
-# Gitea Operator
 gitea:
   namespace: gitea
-  operatorChannel: "latest"
-  operatorSource: community-operators
-  operatorSourceNamespace: openshift-marketplace
   adminUser: gitea-admin
-  adminPassword: gitea-admin
-  postgresqlEnabled: true
+  adminPassword: openshift
   dataSize: 10Gi
   users:
     - username: user1
@@ -25,20 +20,17 @@ gitea:
     - username: user3
       password: openshift
 
-# OpenShift Pipelines
 pipelines:
-  channel: "pipelines-1.17"
+  channel: pipelines-1.17
   source: redhat-operators
   sourceNamespace: openshift-marketplace
 
-# Shared AI models namespace
 aiModels:
   namespace: ai-models
-  modelName: "llama-scout-17b"
+  modelName: llama-scout-17b
   modelEndpoint: "https://models.example.com/v1"
-  embeddingModel: "nomic-embed-text-v1-5"
-  apiKey: "placeholder-key"
+  embeddingModel: nomic-embed-text-v1-5
+  apiKey: placeholder-key
 
-# Shared AI infra namespace
 aiInfra:
   namespace: ai-infra

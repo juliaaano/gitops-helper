@@ -5,4 +5,4 @@ metadata:
   name: {{ .Values.aiInfra.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
-    openshift.io/display-name: "AI Infrastructure - Monitoring and Shared Tooling"
+    openshift.io/display-name: "AI Infrastructure"
