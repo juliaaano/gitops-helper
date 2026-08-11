@@ -1,0 +1,12 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-config
+  namespace: {{ .Values.aiModels.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+data:
+  model_name: {{ .Values.aiModels.modelName | quote }}
+  model_endpoint: {{ .Values.aiModels.modelEndpoint | quote }}
+  embedding_model: {{ .Values.aiModels.embeddingModel | quote }}

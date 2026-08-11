@@ -1,0 +1,13 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+# Per-user copy of model configuration for local namespace reference
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-config
+  namespace: {{ .Values.username }}-ai-dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+data:
+  model_name: "llama-scout-17b"
+  model_endpoint: "https://models.example.com/v1"
+  embedding_model: "nomic-embed-text-v1-5"

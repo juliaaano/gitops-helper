@@ -1,0 +1,48 @@
+# This ApplicationSet deploys bootstrap-tenant N times, once per user.
+# It is disabled by default. To enable, add the following to values.yaml:
+#
+#   tenant:
+#     git:
+#       url: https://github.com/org/repo.git
+#       revision: main
+#       path: bootstrap-tenant
+#
+#   user:
+#     count: 2
+#     prefix: user
+#
+{{- if .Values.tenant -}}
+{{- $userCount := int .Values.user.count -}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tenants
+  namespace: openshift-gitops
+spec:
+  generators:
+  - list:
+      elements:
+      {{- range $index := until $userCount }}
+      - user: {{ $.Values.user.prefix }}{{ add $index 1 }}
+      {{- end }}
+  template:
+    metadata:
+      name: tenant-{{`{{ user }}`}}
+    spec:
+      project: default
+      source:
+        repoURL: {{ .Values.tenant.git.url }}
+        targetRevision: {{ .Values.tenant.git.revision }}
+        path: {{ .Values.tenant.git.path }}
+        helm:
+          values: |
+            username: '{{`{{ user }}`}}'
+            deployer:
+              domain: {{ .Values.deployer.domain | default "apps.cluster.example.com" }}
+      destination:
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: false
+{{- end }}

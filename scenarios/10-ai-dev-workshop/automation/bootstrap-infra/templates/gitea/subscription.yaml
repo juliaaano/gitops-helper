@@ -1,0 +1,14 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: gitea-operator
+  namespace: {{ .Values.gitea.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  channel: {{ .Values.gitea.operatorChannel }}
+  installPlanApproval: Automatic
+  name: gitea-operator
+  source: {{ .Values.gitea.operatorSource }}
+  sourceNamespace: {{ .Values.gitea.operatorSourceNamespace }}

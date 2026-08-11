@@ -1,0 +1,21 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: gpte.opentlc.com/v1
+kind: Gitea
+metadata:
+  name: gitea-instance
+  namespace: {{ .Values.gitea.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  giteaSsl: true
+  giteaAdminUser: {{ .Values.gitea.adminUser }}
+  giteaAdminPassword: {{ .Values.gitea.adminPassword }}
+  giteaAdminEmail: gitea-admin@example.com
+  giteaDisableRegistration: false
+  postgresqlVolumeSize: {{ .Values.gitea.dataSize }}
+  giteaVolumeSize: {{ .Values.gitea.dataSize }}
+  giteaCreateUsers: true
+  giteaUserNumber: {{ len .Values.gitea.users }}
+  giteaUserPassword: openshift
+  giteaGenerateUserFormat: ""

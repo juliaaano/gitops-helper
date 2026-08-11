@@ -1,0 +1,44 @@
+# Auto-injected by the deployer. Do not pass these manually.
+deployer:
+  domain: apps.cluster.example.com
+  apiUrl: https://api.cluster.example.com:6443
+  guid: xxxxx
+
+# Shared namespace for tenant cleanup jobs. Set to "" to disable.
+tenantLifecycle: ""
+
+# Gitea Operator
+gitea:
+  namespace: gitea
+  operatorChannel: "latest"
+  operatorSource: community-operators
+  operatorSourceNamespace: openshift-marketplace
+  adminUser: gitea-admin
+  adminPassword: gitea-admin
+  postgresqlEnabled: true
+  dataSize: 10Gi
+  users:
+    - username: user1
+      password: openshift
+    - username: user2
+      password: openshift
+    - username: user3
+      password: openshift
+
+# OpenShift Pipelines
+pipelines:
+  channel: "pipelines-1.17"
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+
+# Shared AI models namespace
+aiModels:
+  namespace: ai-models
+  modelName: "llama-scout-17b"
+  modelEndpoint: "https://models.example.com/v1"
+  embeddingModel: "nomic-embed-text-v1-5"
+  apiKey: "placeholder-key"
+
+# Shared AI infra namespace
+aiInfra:
+  namespace: ai-infra

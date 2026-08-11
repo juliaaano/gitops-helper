@@ -1,0 +1,20 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ai-chatbot
+  namespace: {{ .Values.username }}-ai-dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app: ai-chatbot
+spec:
+  to:
+    kind: Service
+    name: ai-chatbot
+    weight: 100
+  port:
+    targetPort: {{ .Values.aiChatbot.port }}
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

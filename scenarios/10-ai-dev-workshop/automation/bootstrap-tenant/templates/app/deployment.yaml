@@ -1,0 +1,55 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-chatbot
+  namespace: {{ .Values.username }}-ai-dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app: ai-chatbot
+    app.kubernetes.io/part-of: ai-chatbot
+spec:
+  replicas: {{ .Values.aiChatbot.replicas }}
+  selector:
+    matchLabels:
+      app: ai-chatbot
+  template:
+    metadata:
+      labels:
+        app: ai-chatbot
+    spec:
+      containers:
+        - name: ai-chatbot
+          image: {{ .Values.aiChatbot.image }}
+          ports:
+            - containerPort: {{ .Values.aiChatbot.port }}
+              protocol: TCP
+          env:
+            - name: MODEL_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: model-config
+                  key: model_name
+            - name: MODEL_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: model-config
+                  key: model_endpoint
+            - name: EMBEDDING_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: model-config
+                  key: embedding_model
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ai-api-key
+                  key: token
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

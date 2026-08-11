@@ -1,0 +1,55 @@
+# Generated from rhdp-gitops-patterns/skeleton (v0.1.0)
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: ai-app-build
+  namespace: {{ .Values.username }}-ai-dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  workspaces:
+    - name: shared-workspace
+  params:
+    - name: git-url
+      type: string
+      description: The git repository URL
+    - name: image-name
+      type: string
+      description: The image to build and push
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: url
+          value: $(params.git-url)
+    - name: build-image
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      runAfter:
+        - git-clone
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: IMAGE
+          value: $(params.image-name)
+    - name: deploy
+      taskRef:
+        name: openshift-client
+        kind: ClusterTask
+      runAfter:
+        - build-image
+      workspaces:
+        - name: manifest-dir
+          workspace: shared-workspace
+      params:
+        - name: SCRIPT
+          value: |
+            oc rollout restart deployment/ai-chatbot -n {{ .Values.username }}-ai-dev

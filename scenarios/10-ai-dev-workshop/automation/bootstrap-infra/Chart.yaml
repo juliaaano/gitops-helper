@@ -1,0 +1,5 @@
+apiVersion: v2
+name: bootstrap-infra
+description: Cluster-scoped shared infrastructure for the AI Dev Workshop lab environment
+type: application
+version: 0.1.0
