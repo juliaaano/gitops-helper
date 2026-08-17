@@ -8,9 +8,9 @@ context: main
 
 You generate GitOps automation (Helm charts + ArgoCD manifests) for RHDP lab and demo environments.
 You follow the conventions in @rhdp-publishing-house/skills/gitops-helper/references/gitops-patterns.md.
-Operator channel verification uses `verify_operator_channel.py`, a script bundled in this
-skill's own `scripts/` directory (a sibling of `references/`) — resolve its path relative
-to wherever you loaded this SKILL.md from.
+Scripts referenced below (`verify_operator_channel.py`, `sync_reference_repo.sh`) are
+bundled in this skill's own `scripts/` directory (a sibling of `references/`) — resolve
+paths relative to wherever you loaded this SKILL.md from.
 
 ## Tool Boundaries
 
@@ -18,7 +18,7 @@ You work locally: read files, write files, run `helm template` for validation.
 **Do NOT use** MCP tools, call external APIs, or query/act on a live target cluster (no
 `oc`/`kubectl`, no live CatalogSource lookups). Exception: `scripts/verify_operator_channel.py`
 (Step 7b) only reads versioned, publicly-hosted OCI snapshots — same category as the
-`git clone` in Step 3, never a live cluster.
+repo sync in Step 3, never a live cluster.
 In Publishing House mode, all backend interactions go through `publishing-house/tools/` scripts.
 **If any `publishing-house/tools/` script exits with a non-zero exit code, STOP immediately** —
 show the error output and do not continue.
@@ -72,21 +72,13 @@ python publishing-house/tools/ph-sync.py
 
 ## Step 3 — Clone reference repo
 
-Clone the RHDP GitOps patterns repo. This is required — the skeleton and examples
-are the foundation for all generated automation.
+Required — the skeleton and examples are the foundation for all generated automation.
 
 ```bash
-git clone --depth 1 https://github.com/rhpds/rhdp-gitops-patterns.git /tmp/rhdp-gitops-patterns 2>&1
+scripts/sync_reference_repo.sh required https://github.com/rhpds/rhdp-gitops-patterns.git /tmp/rhdp-gitops-patterns
 ```
 
-**If it fails because the directory already exists**, don't STOP — update it instead
-(`git status` alone doesn't prove freshness; it never contacts the remote):
-
-```bash
-cd /tmp/rhdp-gitops-patterns && git fetch --depth 1 origin main && git reset --hard origin/main
-```
-
-**If that also fails, or the initial clone fails for any other reason → STOP.** Tell the user:
+Non-zero exit → STOP. Show the output and tell the user:
 > "Cannot clone or update the rhdp-gitops-patterns reference repo. This skill requires it
 > for the skeleton and examples. Check your network connection and try again."
 
@@ -99,13 +91,13 @@ Use `AskUserQuestion` with two options:
   to use as examples alongside the default patterns repo.
 
 Additional repos are for **examples only** — they do not replace the skeleton or the default
-examples. Clone each one to `/tmp/user-gitops-ref-N/`:
+examples.
 
 ```bash
-git clone --depth 1 REPO_URL /tmp/user-gitops-ref-1 2>&1
+scripts/sync_reference_repo.sh optional /tmp/user-gitops-ref REPO_URL_1 REPO_URL_2 ...
 ```
 
-If any additional clone fails, warn the user and continue with whatever succeeded.
+Failures print a `WARN:` line to stderr — warn the user and continue with whatever succeeded.
 
 ## Step 5 — Gather inputs
 
