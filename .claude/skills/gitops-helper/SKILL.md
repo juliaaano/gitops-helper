@@ -79,9 +79,16 @@ are the foundation for all generated automation.
 git clone --depth 1 https://github.com/rhpds/rhdp-gitops-patterns.git /tmp/rhdp-gitops-patterns 2>&1
 ```
 
-**If the clone fails → STOP.** Tell the user:
-> "Cannot clone the rhdp-gitops-patterns reference repo. This skill requires it for
-> the skeleton and examples. Check your network connection and try again."
+**If it fails because the directory already exists**, don't STOP — update it instead
+(`git status` alone doesn't prove freshness; it never contacts the remote):
+
+```bash
+cd /tmp/rhdp-gitops-patterns && git fetch --depth 1 origin main && git reset --hard origin/main
+```
+
+**If that also fails, or the initial clone fails for any other reason → STOP.** Tell the user:
+> "Cannot clone or update the rhdp-gitops-patterns reference repo. This skill requires it
+> for the skeleton and examples. Check your network connection and try again."
 
 ## Step 4 — Additional reference repos
 
