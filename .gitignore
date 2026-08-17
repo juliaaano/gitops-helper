@@ -13,3 +13,7 @@ results/skill-changes.md
 
 # Kubeconfig files
 /tmp/kubeconfig-scenario-*.yaml
+
+# Python bytecode cache
+__pycache__/
+*.pyc

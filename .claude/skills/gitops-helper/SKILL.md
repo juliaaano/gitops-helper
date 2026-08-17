@@ -8,11 +8,17 @@ context: main
 
 You generate GitOps automation (Helm charts + ArgoCD manifests) for RHDP lab and demo environments.
 You follow the conventions in @rhdp-publishing-house/skills/gitops-helper/references/gitops-patterns.md.
+Operator channel verification uses `verify_operator_channel.py`, a script bundled in this
+skill's own `scripts/` directory (a sibling of `references/`) — resolve its path relative
+to wherever you loaded this SKILL.md from.
 
 ## Tool Boundaries
 
 You work locally: read files, write files, run `helm template` for validation.
-**Do NOT use** MCP tools or call external APIs directly.
+**Do NOT use** MCP tools, call external APIs, or query/act on a live target cluster (no
+`oc`/`kubectl`, no live CatalogSource lookups). Exception: `scripts/verify_operator_channel.py`
+(Step 7b) only reads versioned, publicly-hosted OCI snapshots — same category as the
+`git clone` in Step 3, never a live cluster.
 In Publishing House mode, all backend interactions go through `publishing-house/tools/` scripts.
 **If any `publishing-house/tools/` script exits with a non-zero exit code, STOP immediately** —
 show the error output and do not continue.
@@ -116,7 +122,28 @@ If in a Publishing House project:
 - Read `publishing-house/spec/design.md` for the full design spec
 - Read module outlines in `publishing-house/spec/modules/` for what needs pre-configuration
 
-### 5d. Clarifying questions
+### 5d. Target OpenShift version
+
+**RULE: Run `list-versions` before asking. Never guess, recall, or reuse an OCP version
+number from memory or from an example in this doc — trained-in "latest OpenShift
+version" knowledge goes stale, which is exactly the failure this command exists to
+prevent. No exceptions.**
+
+Needed later in Step 7b to verify and pin operator channels. Check `publishing-house/spec.yaml`'s
+`ocp_version` (PH mode) and the automation manifest first. If neither has it, run:
+
+```bash
+python3 <path-to-this-skill>/scripts/verify_operator_channel.py list-versions
+```
+
+Use `AskUserQuestion` with the exact versions the command returned as options (newest
+first, marked "(Recommended)"), plus free text for anything else. The options must be
+the literal array elements from that JSON output — not numbers you recall or assume.
+
+Store the chosen `major.minor` version for reuse across every operator verified in Step 7b —
+run this once per run, not once per operator.
+
+### 5e. Clarifying questions
 
 After analyzing all available inputs, determine what is still unclear or missing.
 Ask the user clarifying questions for anything you cannot determine from the inputs.
@@ -224,6 +251,12 @@ section in `gitops-patterns.md`. Some operators (e.g., Gitea) are not in standar
 OLM catalogs and require a custom CatalogSource or specific install modes. Always
 apply these requirements during generation -- do not rely on deployment-time debugging.
 
+**For any Subscription sourced from `redhat-operators`**, verify and pin the channel
+against the RHPDS snapshot: see "Verifying and Pinning Operator Channels" in
+`gitops-patterns.md`. It resolves the real channel for the target OCP version (Step 5d)
+and pins the Subscription to a frozen snapshot instead of the cluster's floating
+catalog. If verification can't run, say so in the Step 7c summary instead of guessing.
+
 **Before using any S2I builder image** (ubi9/nginx-122, ubi9/httpd-24, ubi9/python-311),
 check the "S2I Builder Images" section in `gitops-patterns.md`. These images require
 a command override and content mount -- they will CrashLoopBackOff if deployed bare.
@@ -241,6 +274,8 @@ Show the user what was generated:
 - Summary of what goes in infra vs tenant
 - Any assumptions made
 - Any components that need user-provided references
+- Operator channel results: verified/pinned as-is, corrected (old → real value), or
+  unverified (flagged for manual confirmation)
 
 Wait for the author to review the generated files.
 
@@ -277,18 +312,13 @@ ocp4_workload_gitops_bootstrap_helm_values:
   ...
 ```
 
-Populate the `helm_values` block with only the values that should be deployer-managed:
-operator channels/CSVs, git revisions, image tags, secrets, user count/prefix.
-Leave everything else to the chart's `values.yaml` defaults.
+Populate `helm_values` with only deployer-managed values: git revisions, image tags,
+secrets, user count/prefix. Operator channels are already verified and pinned in
+`values.yaml` defaults (Step 7b) — leave them there unless a deployment needs a
+different pinned snapshot.
 
 ## Rules
 
-- The rhdp-gitops-patterns repo is required. If it cannot be cloned, STOP.
-- The automation manifest is an input, not a contract. Accept whatever format and fields are there.
-- Always generate `bootstrap-infra`. Only generate `bootstrap-tenant` when confirmed.
-- Never place tenant resources in shared namespaces.
-- Check examples before generating from scratch.
-- Ask the user when you don't have a reference for a component.
 - Do not hardcode cluster domains — construct URLs from `deployer.domain`.
 - Never enable the ApplicationSet in `bootstrap-infra`. Do not add a `tenant:` key to its `values.yaml`. The ApplicationSet is for manual use only.
 - Do not advance the lifecycle phase — that is the development skill's job.
