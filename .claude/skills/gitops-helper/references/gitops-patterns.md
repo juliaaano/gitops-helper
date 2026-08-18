@@ -150,18 +150,15 @@ breaking the lab long after it was authored.
 `redhat-operators` — the catalog AgnosticD's `install_operator` role actually pins
 installs to (`install_operator_catalogsource_image`, agnosticd-v2). As a versioned,
 public OCI image, this skill can check it directly: no live cluster, no MCP tools, same
-category of read as cloning the patterns repo in Step 3.
+category of read as cloning the patterns repo in Step 1.
 
 ### Mechanism
 
 Use the bundled `scripts/verify_operator_channel.py` (path: see SKILL.md) — it already
-handles caching and FBC parsing; don't hand-roll the quay.io/podman calls.
+handles caching and FBC parsing; don't hand-roll the quay.io/podman calls. The target OCP
+version is already resolved by SKILL.md Step 3c before any of this runs.
 
-1. **Resolve the target OCP version** once per run (SKILL.md Step 5d) — from
-   `publishing-house/spec.yaml`, the manifest, or by asking the user with
-   `list-versions` as the candidate list.
-
-2. **For each Subscription sourced from `redhat-operators`**, verify:
+1. **For each Subscription sourced from `redhat-operators`**, verify:
 
    ```bash
    python3 <path-to-this-skill>/scripts/verify_operator_channel.py verify \
@@ -170,22 +167,22 @@ handles caching and FBC parsing; don't hand-roll the quay.io/podman calls.
    ```
 
    (`<path-to-this-skill>` — resolve relative to wherever this SKILL.md was loaded from,
-   same as Step 5d.)
+   same as Step 3c.)
 
-3. **Act on the result:**
+2. **Act on the result:**
    - `verified: true` → the requested channel is real. Keep it.
    - `verified: false` → the requested channel doesn't exist. Use `resolved_channel`
      (the catalog's real `default_channel`) instead, and note the correction for the
-     Step 7c summary: *"channel changed from 'X' (not found in vY.Z snapshot) to 'W'"*.
+     Step 5c summary: *"channel changed from 'X' (not found in vY.Z snapshot) to 'W'"*.
    - `package_found: false` → the package isn't in `redhat-operators`. Fall back to
      "Known Operator Quirks" handling, or ask the user.
    - Exit code 2 (`error` is one of `podman_unavailable`, `quay_unreachable`,
      `invalid_ocp_version`, `no_snapshot_for_version`, `extraction_failed`,
      `malformed_catalog_data`) → verification couldn't run. Do not guess. Write the
      Subscription with the best-available channel and flag it explicitly as
-     **unverified** in Step 7c — an honest gap beats a silent guess.
+     **unverified** in Step 5c — an honest gap beats a silent guess.
 
-4. **Pin, don't just verify.** Generate a `CatalogSource` in `bootstrap-infra/templates/`
+3. **Pin, don't just verify.** Generate a `CatalogSource` in `bootstrap-infra/templates/`
    pointing at the exact `catalog_image` returned (sync-wave `-2`), and point the
    Subscription's `source`/`sourceNamespace` at it instead of the cluster default.
    **One `CatalogSource` for every `redhat-operators` Subscription in the lab** — a
