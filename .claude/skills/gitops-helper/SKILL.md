@@ -284,13 +284,10 @@ Tell the user to review, stage, and commit the generated files themselves.
 
 Then print a suggested AgnosticV `common.yml` snippet to the console.
 
-**Always print this warning first:**
-> **AgnosticV config suggestion** — review and test before using. This is only a starting point.
-
 Generate a snippet for the cluster catalog item (`bootstrap-infra`):
 ```yaml
 ocp4_workload_gitops_bootstrap_repo_url: https://github.com/ORG/REPO
-ocp4_workload_gitops_bootstrap_repo_revision: "{{ gitops_repo_revision }}"
+ocp4_workload_gitops_bootstrap_repo_revision: main
 ocp4_workload_gitops_bootstrap_repo_path: bootstrap-infra
 ocp4_workload_gitops_bootstrap_application_name: bootstrap-infra
 ocp4_workload_gitops_bootstrap_helm_values:
@@ -302,7 +299,7 @@ ocp4_workload_gitops_bootstrap_helm_values:
 If `bootstrap-tenant` was generated, also print a tenant snippet:
 ```yaml
 ocp4_workload_gitops_bootstrap_repo_url: https://github.com/ORG/REPO
-ocp4_workload_gitops_bootstrap_repo_revision: "{{ gitops_repo_revision }}"
+ocp4_workload_gitops_bootstrap_repo_revision: main
 ocp4_workload_gitops_bootstrap_repo_path: bootstrap-tenant
 ocp4_workload_gitops_bootstrap_application_project: tenants
 ocp4_workload_gitops_bootstrap_application_name: "bootstrap-{{ guid }}"
@@ -311,10 +308,11 @@ ocp4_workload_gitops_bootstrap_helm_values:
   ...
 ```
 
-Populate `helm_values` with only deployer-managed values: git revisions, image tags,
-secrets, user count/prefix. Operator channels are already verified and pinned in
-`values.yaml` defaults (Step 7b) — leave them there unless a deployment needs a
-different pinned snapshot.
+Populate `helm_values` with only deployer-managed values: image tags, secrets,
+user count/prefix (`repo_revision` is fixed at `main`, not a helm value).
+Operator channels are already verified and pinned in `values.yaml` defaults
+(Step 7b) — leave them there unless a deployment needs a different pinned
+snapshot.
 
 ## Rules
 

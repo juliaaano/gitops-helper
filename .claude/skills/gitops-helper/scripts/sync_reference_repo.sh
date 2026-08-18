@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# Clone or update git reference repos used by the gitops-helper skill.
-# Idempotent: if the destination already exists, it is fetched and reset to
-# origin/main instead of re-cloned, so reruns pick up upstream changes.
 set -uo pipefail
 
 sync_repo() {
@@ -17,17 +14,8 @@ sync_repo() {
 }
 
 usage() {
-  cat >&2 <<EOF
-Usage:
-  $0 required <repo_url> <dest_dir>
-  $0 optional <dest_prefix> <repo_url> [<repo_url> ...]
-
-  required: syncs a single mandatory repo. Non-zero exit means the caller
-            should STOP the skill.
-  optional: syncs one or more extra repos to <dest_prefix>-1, -2, ... Failures
-            are reported per repo on stderr; the caller should warn and
-            continue rather than stop.
-EOF
+  echo "Usage: $0 required <repo_url> <dest_dir>" >&2
+  echo "       $0 optional <dest_prefix> <repo_url> [<repo_url> ...]" >&2
   exit 2
 }
 

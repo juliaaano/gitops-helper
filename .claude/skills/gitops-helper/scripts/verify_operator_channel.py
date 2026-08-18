@@ -1,15 +1,4 @@
 #!/usr/bin/env python3
-"""Verify a redhat-operators channel against quay.io/rhpds/olm_snapshot_redhat_catalog.
-Scope rationale: gitops-patterns.md, "Verifying and Pinning Operator Channels".
-
-Usage:
-  verify_operator_channel.py list-versions [--top N]
-  verify_operator_channel.py verify --ocp-version X.Y --package NAME [--channel NAME]
-
-Prints one JSON object to stdout. Exit 0: check "error". Exit 2 (treat channel as
-unverified): error is podman_unavailable, quay_unreachable, invalid_ocp_version,
-no_snapshot_for_version, extraction_failed, or malformed_catalog_data.
-"""
 import argparse
 import json
 import os
@@ -213,20 +202,17 @@ def cmd_verify(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="command", required=True)
 
-    lv = sub.add_parser("list-versions", help="List the N newest OCP versions with a published snapshot")
+    lv = sub.add_parser("list-versions")
     lv.add_argument("--top", type=int, default=3)
     lv.set_defaults(func=cmd_list_versions)
 
-    v = sub.add_parser(
-        "verify",
-        help="Resolve a redhat-operators package's real channels for a given OCP version",
-    )
-    v.add_argument("--ocp-version", required=True, help="Major.minor, e.g. 4.22")
-    v.add_argument("--package", required=True, help="OLM package name, e.g. openshift-pipelines-operator-rh")
-    v.add_argument("--channel", default=None, help="Channel to verify; omit to just report available channels")
+    v = sub.add_parser("verify")
+    v.add_argument("--ocp-version", required=True)
+    v.add_argument("--package", required=True)
+    v.add_argument("--channel", default=None)
     v.set_defaults(func=cmd_verify)
 
     args = parser.parse_args()

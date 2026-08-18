@@ -348,7 +348,7 @@ each as its own AgnosticV catalog item.
 **Cluster catalog item** calls the role with `repo_path: bootstrap-infra`:
 ```yaml
 ocp4_workload_gitops_bootstrap_repo_url: https://github.com/org/repo
-ocp4_workload_gitops_bootstrap_repo_revision: "{{ gitops_repo_revision }}"
+ocp4_workload_gitops_bootstrap_repo_revision: main
 ocp4_workload_gitops_bootstrap_repo_path: bootstrap-infra
 ocp4_workload_gitops_bootstrap_application_name: bootstrap-infra
 ```
@@ -357,7 +357,7 @@ ocp4_workload_gitops_bootstrap_application_name: bootstrap-infra
 application name per user:
 ```yaml
 ocp4_workload_gitops_bootstrap_repo_url: https://github.com/org/repo
-ocp4_workload_gitops_bootstrap_repo_revision: "{{ gitops_repo_revision }}"
+ocp4_workload_gitops_bootstrap_repo_revision: main
 ocp4_workload_gitops_bootstrap_repo_path: bootstrap-tenant
 ocp4_workload_gitops_bootstrap_application_project: tenants
 ocp4_workload_gitops_bootstrap_application_name: "bootstrap-{{ guid }}"
@@ -372,7 +372,6 @@ these manually.
 ### What belongs in helm_values
 
 Only pass values that are **prone to external changes**:
-- Git revisions and version pins (`targetRevision`, `gitops_repo_revision`)
 - Container image tags
 - Secrets (Ansible Vault encrypted)
 - User count and prefix (`user.count`, `user.prefix`)
@@ -384,17 +383,6 @@ the AgnosticV config minimal and prevents the deployer from needing to know char
 Operator channels are **not** deployer-managed values — they're verified and pinned into
 the chart's defaults at generation time (see "Verifying and Pinning Operator Channels"
 above), so there's nothing for the deployer to override.
-
-### Version pinning
-
-Use a `gitops_repo_revision` variable in the AgnosticV config that maps to a git tag:
-```yaml
-gitops_repo_revision: v1.0.0
-
-ocp4_workload_gitops_bootstrap_repo_revision: "{{ gitops_repo_revision }}"
-```
-
-Pin to tags in production (`event.yaml`), use `main` in development (`dev.yaml`).
 
 ## Flat Chart — No Intra-Repo App-of-Apps
 
